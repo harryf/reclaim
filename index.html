@@ -1,0 +1,942 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RECLAIM · The Software Is Yours. So Is The Data.</title>
+<meta name="description" content="A manifesto and a strategy for personal, free-to-run, data-sovereign software. No server. No account. No middleman. The only cost is tokens.">
+<!-- Social preview. Update the base URL below to your actual GitHub Pages URL if the repo/domain differs. -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://harryf.github.io/reclaim/">
+<meta property="og:title" content="RECLAIM · The Software Is Yours. So Is The Data.">
+<meta property="og:description" content="A manifesto and a strategy for personal, free-to-run, data-sovereign software. No server. No account. No middleman. The only cost is tokens.">
+<meta property="og:image" content="https://harryf.github.io/reclaim/og-image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="RECLAIM. The software is yours. So is the data. No server, no account, no middleman.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="RECLAIM · The Software Is Yours. So Is The Data.">
+<meta name="twitter:description" content="Personal, free-to-run, data-sovereign software. No server. No account. No middleman. The only cost is tokens.">
+<meta name="twitter:image" content="https://harryf.github.io/reclaim/og-image.jpg">
+<style>
+  /* No external anything. This page is itself the proof: one file, free to run, offline, on GitHub Pages, no middleman. */
+  :root{
+    --ink:#131312;
+    --paper:#e6e6e2;
+    --paper-2:#d6d6d0;
+    --blood:#d81e05;
+    --blood-deep:#a3160a;
+    --gold:#d99407;
+    --smudge:rgba(19,19,18,.72);
+    --hair:rgba(19,19,18,.16);
+    --mono:ui-monospace,"SFMono-Regular",Menlo,Consolas,"Liberation Mono",monospace;
+    --disp:"Helvetica Neue",Helvetica,Arial,"Arial Narrow",sans-serif;
+    --serif:Georgia,"Times New Roman",Times,serif;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--serif);
+    font-size:19px;
+    line-height:1.55;
+    background-image:
+      radial-gradient(rgba(15,13,11,.05) 1px, transparent 1.2px),
+      radial-gradient(rgba(15,13,11,.05) 1px, transparent 1.2px);
+    background-size:4px 4px, 4px 4px;
+    background-position:0 0, 2px 2px;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  a{color:var(--blood-deep);text-underline-offset:3px;text-decoration-thickness:2px}
+  a:hover{color:var(--ink);background:var(--gold)}
+  ::selection{background:var(--blood);color:var(--paper)}
+
+  .wrap{max-width:1080px;margin:0 auto;padding:0 22px}
+  .rule{height:6px;background:var(--ink);margin:0}
+  .rule.blood{background:var(--blood)}
+
+  .kicker{font-family:var(--mono);text-transform:uppercase;letter-spacing:.28em;font-size:12px;color:var(--smudge)}
+  .stamp{
+    display:inline-block;font-family:var(--mono);font-weight:700;text-transform:uppercase;
+    letter-spacing:.14em;font-size:12px;padding:6px 11px;border:2.5px solid var(--blood);
+    color:var(--blood);transform:rotate(-4deg);background:rgba(216,30,5,.05);margin:4px 0;
+  }
+  .stamp.ink{border-color:var(--ink);color:var(--ink);transform:rotate(3deg)}
+
+  /* ---------- MASTHEAD ---------- */
+  header.masthead{
+    background:var(--ink);color:var(--paper);
+    border-bottom:6px solid var(--blood);
+    padding:20px 0 0;position:relative;overflow:hidden;
+  }
+  .masthead .strip{
+    font-family:var(--mono);font-size:11px;letter-spacing:.3em;text-transform:uppercase;
+    color:var(--paper);opacity:.7;display:flex;gap:18px;flex-wrap:wrap;justify-content:space-between;
+    border-bottom:1px solid rgba(242,236,221,.2);padding-bottom:12px;
+  }
+  .anarch{position:absolute;right:-30px;top:40px;font-size:340px;line-height:.7;opacity:.06;
+    font-family:var(--disp);font-weight:900;pointer-events:none;user-select:none}
+  h1.title{
+    font-family:var(--disp);font-weight:900;letter-spacing:-.03em;line-height:.86;
+    text-transform:uppercase;margin:26px 0 6px;
+    font-size:clamp(58px,17vw,190px);color:var(--paper);
+    text-shadow:5px 5px 0 var(--blood);
+  }
+  .subtitle{font-family:var(--serif);font-style:italic;font-size:clamp(19px,2.6vw,28px);
+    max-width:44ch;color:var(--paper);opacity:.94;margin:0 0 8px}
+  .deck{display:flex;gap:10px;flex-wrap:wrap;margin:20px 0 28px}
+  .deck b{font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;
+    border:2px solid var(--paper);color:var(--paper);padding:7px 12px;font-weight:700}
+  .deck b.hot{background:var(--blood);border-color:var(--blood)}
+
+  /* ---------- SECTIONS ---------- */
+  section{padding:64px 0}
+  .secnum{font-family:var(--disp);font-weight:900;font-size:clamp(40px,7vw,84px);
+    color:var(--blood);line-height:.8;letter-spacing:-.03em}
+  h2{font-family:var(--disp);font-weight:900;text-transform:uppercase;letter-spacing:-.02em;
+    font-size:clamp(32px,6vw,64px);line-height:.92;margin:6px 0 18px}
+  h3{font-family:var(--disp);font-weight:800;text-transform:uppercase;letter-spacing:.02em;
+    font-size:22px;margin:0 0 8px}
+  .lead{font-size:clamp(20px,2.7vw,27px);line-height:1.4;max-width:62ch}
+  p{max-width:66ch}
+  .sechead{display:flex;align-items:baseline;gap:20px;flex-wrap:wrap;margin-bottom:8px}
+
+  mark{background:var(--gold);padding:0 .12em}
+  .redact{background:var(--ink);color:var(--ink);padding:0 .2em;transition:color .15s}
+  .redact:hover{color:var(--paper)}
+  strong.hit{color:var(--blood-deep)}
+
+  /* ---------- FIGURES (inline SVG, zero hosted assets) ---------- */
+  figure{margin:0}
+  .plate,.seedfig{max-width:840px;margin:40px auto 0}
+  .plate svg,.seedfig svg{width:100%;height:auto;display:block}
+  figcaption{font-family:var(--serif);font-size:16px;color:var(--smudge);
+    max-width:58ch;margin:14px auto 0;text-align:center;line-height:1.4}
+
+  /* ---------- MANIFESTO ---------- */
+  #manifesto{background:var(--ink);color:var(--paper);border-top:6px solid var(--blood);border-bottom:6px solid var(--blood)}
+  #manifesto h2{color:var(--paper)}
+  #manifesto .secnum{color:var(--gold)}
+  #manifesto .lead{color:var(--paper);opacity:.9}
+  ol.theses{list-style:none;counter-reset:t;margin:34px 0 0;padding:0}
+  ol.theses li{
+    counter-increment:t;position:relative;padding:22px 0 22px 92px;
+    border-top:1px solid rgba(242,236,221,.18);
+  }
+  ol.theses li:last-child{border-bottom:1px solid rgba(242,236,221,.18)}
+  ol.theses li::before{
+    content:counter(t,decimal-leading-zero);position:absolute;left:0;top:16px;
+    font-family:var(--disp);font-weight:900;font-size:46px;color:var(--blood);line-height:1;
+    width:74px;text-align:right;
+  }
+  ol.theses .th{font-family:var(--disp);font-weight:800;text-transform:uppercase;
+    font-size:clamp(19px,2.4vw,26px);letter-spacing:-.01em;line-height:1.06;color:var(--paper)}
+  ol.theses .gloss{font-family:var(--serif);font-size:17px;opacity:.72;margin-top:7px;max-width:70ch}
+  ol.theses li:hover::before{color:var(--gold)}
+
+  /* ---------- FIRST PRINCIPLES / FIVE PARTS ---------- */
+  .parts{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:2px;
+    background:var(--ink);border:3px solid var(--ink);margin:30px 0}
+  .part{background:var(--paper);padding:20px 18px}
+  .part .pic{width:34px;height:34px;color:var(--blood);margin-bottom:8px;display:block}
+  .part .n{font-family:var(--mono);font-size:12px;letter-spacing:.2em;color:var(--blood);font-weight:700}
+  .part .need{font-family:var(--disp);font-weight:900;text-transform:uppercase;font-size:19px;margin:6px 0 4px;line-height:1}
+  .part .have{font-family:var(--serif);font-size:15px;line-height:1.35}
+  .part .cost{font-family:var(--mono);font-size:12px;letter-spacing:.1em;margin-top:10px;
+    display:inline-block;background:var(--ink);color:var(--gold);padding:3px 8px;text-transform:uppercase}
+  .verdict{font-family:var(--disp);font-weight:900;text-transform:uppercase;font-size:clamp(22px,3.4vw,38px);
+    line-height:1.02;margin:18px 0 0;max-width:24ch}
+  .verdict .x{color:var(--blood)}
+
+  /* ---------- STRATEGY STACK ---------- */
+  .stack{border:3px solid var(--ink);margin:28px 0}
+  .row{display:grid;grid-template-columns:170px 1fr;border-top:2px solid var(--ink)}
+  .row:first-child{border-top:0}
+  .row .lyr{background:var(--ink);color:var(--paper);font-family:var(--mono);font-weight:700;
+    text-transform:uppercase;letter-spacing:.12em;font-size:13px;padding:16px 14px}
+  .row .val{padding:15px 16px;font-size:16px;line-height:1.4}
+  .row .val b{font-family:var(--mono);color:var(--blood-deep);font-weight:700}
+
+  /* ---------- CALLOUT: WHY GITHUB ---------- */
+  .callout{background:var(--ink);color:var(--paper);border-top:6px solid var(--blood);margin:0;padding:52px 0}
+  .callout .kicker{color:var(--gold)}
+  .callout .pull{font-family:var(--disp);font-weight:900;text-transform:uppercase;
+    font-size:clamp(28px,5.4vw,58px);line-height:.96;letter-spacing:-.02em;margin:12px 0 0;max-width:20ch}
+  .callout .pull .flip{color:var(--blood)}
+  .callout .why{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:24px 30px;margin-top:36px}
+  .callout .why h4{font-family:var(--disp);font-weight:800;text-transform:uppercase;font-size:16px;
+    letter-spacing:.02em;margin:0 0 6px;color:var(--gold)}
+  .callout .why p{font-size:15.5px;line-height:1.45;opacity:.86;margin:0;max-width:none}
+
+  /* ---------- PHOTOS (remote, Wikimedia Commons; duotone to match the zine) ---------- */
+  .photo{margin:34px 0 0;border:3px solid var(--ink)}
+  .photo .frame{position:relative;overflow:hidden;background:var(--blood);aspect-ratio:16/7}
+  .photo.tall .frame{aspect-ratio:3/2}
+  .photo.ink .frame{background:var(--ink)}
+  .photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+  .photo.duo img{filter:grayscale(1) contrast(1.06);mix-blend-mode:luminosity;opacity:.92}
+  .photo.gray img{filter:grayscale(1) contrast(1.04)}
+  .photo figcaption{font-family:var(--serif);font-size:17px;line-height:1.42;max-width:64ch;
+    margin:13px 2px 0;text-align:left;color:inherit;opacity:.9}
+  .photo .cred{display:block;font-family:var(--mono);font-size:11px;letter-spacing:.1em;
+    text-transform:uppercase;opacity:.55;margin-top:6px}
+
+  /* ---------- RECLAIM MAP + SMALL BUSINESS ---------- */
+  .map{display:grid;grid-template-columns:repeat(auto-fit,minmax(258px,1fr));gap:2px;background:var(--ink);border:3px solid var(--ink);margin:28px 0 0}
+  .mapcard{background:var(--paper);padding:20px 18px}
+  .mapcard h3{font-size:18px;margin:0 0 8px}
+  .mapcard .today{font-family:var(--mono);font-size:11px;letter-spacing:.05em;text-transform:uppercase;color:var(--smudge);display:block}
+  .mapcard .today s{text-decoration-color:var(--blood);text-decoration-thickness:2px}
+  .mapcard p.re{font-size:15px;line-height:1.42;margin:8px 0 0;max-width:none}
+  .mapnote{font-family:var(--disp);font-weight:900;text-transform:uppercase;font-size:clamp(18px,2.6vw,26px);line-height:1.05;margin:22px 0 0;max-width:26ch}
+  .mapnote .x{color:var(--blood)}
+  .bizpanel{background:var(--ink);color:var(--paper);border:3px solid var(--ink);padding:34px 30px;margin-top:44px}
+  .bizpanel .kicker{color:var(--gold)}
+  .bizpanel h3{color:var(--paper);font-size:clamp(24px,4.6vw,42px);margin:10px 0 8px;text-transform:uppercase;letter-spacing:-.01em}
+  .bizpanel .lead{color:var(--paper);opacity:.92;max-width:62ch;font-size:clamp(18px,2.2vw,21px)}
+  .bizgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:22px 30px;margin-top:28px}
+  .bizgrid h4{font-family:var(--disp);font-weight:800;text-transform:uppercase;font-size:15px;letter-spacing:.02em;color:var(--gold);margin:0 0 5px}
+  .bizgrid p{font-size:15px;line-height:1.45;opacity:.86;margin:0;max-width:none}
+  .bizpanel .honest{font-family:var(--mono);font-size:13px;line-height:1.55;margin-top:26px;border-left:3px solid var(--blood);padding-left:12px;opacity:.85;max-width:none}
+
+  /* ---------- INLINE PLAIN-ENGLISH TERMS (tap/hover, no jumping) ---------- */
+  .term{position:relative;color:var(--blood-deep);border-bottom:2px dotted currentColor;cursor:help;font-weight:700;outline:none}
+  .term .pop{position:absolute;left:0;bottom:calc(100% + 10px);width:min(300px,80vw);
+    background:var(--ink);color:var(--paper);border:2px solid var(--blood);padding:12px 14px;
+    font-family:var(--serif);font-weight:400;font-style:normal;font-size:14px;line-height:1.42;
+    letter-spacing:normal;text-transform:none;z-index:40;opacity:0;visibility:hidden;transform:translateY(6px);
+    transition:opacity .14s,transform .14s;box-shadow:6px 6px 0 rgba(0,0,0,.28);white-space:normal;text-align:left}
+  .term .pop b{color:var(--gold);font-weight:700}
+  .term:hover .pop,.term:focus .pop,.term:focus-within .pop{opacity:1;visibility:visible;transform:none}
+  .term .pop::after{content:"";position:absolute;top:100%;left:20px;border:7px solid transparent;border-top-color:var(--blood)}
+  .taphint{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--smudge);margin:14px 0 0}
+  .taphint b{color:var(--blood-deep)}
+  @media(max-width:560px){ .term .pop{left:auto;right:0} .term .pop::after{left:auto;right:20px} }
+
+  /* ---------- START THE AVALANCHE (developer first steps) ---------- */
+  #avalanche{background:var(--ink);color:var(--paper);border-top:6px solid var(--blood)}
+  #avalanche h2{color:var(--paper)}
+  #avalanche .secnum{color:var(--gold)}
+  #avalanche .lead{color:var(--paper);opacity:.92}
+  .steps{list-style:none;counter-reset:s;margin:30px 0 0;padding:0}
+  .steps li{counter-increment:s;position:relative;padding:20px 0 20px 84px;border-top:1px solid rgba(230,230,226,.16)}
+  .steps li:last-child{border-bottom:1px solid rgba(230,230,226,.16)}
+  .steps li::before{content:counter(s);position:absolute;left:0;top:14px;font-family:var(--disp);font-weight:900;
+    font-size:44px;color:var(--blood);line-height:1;width:64px;text-align:right}
+  .steps h4{font-family:var(--disp);font-weight:800;text-transform:uppercase;font-size:clamp(17px,2.2vw,22px);letter-spacing:-.01em;margin:0 0 5px;color:var(--paper)}
+  .steps p{font-size:16px;line-height:1.45;opacity:.82;margin:0;max-width:64ch}
+  @media(max-width:560px){ .steps li{padding-left:58px} .steps li::before{font-size:32px;width:46px} }
+
+  /* ---------- OPENING EPIGRAPH ---------- */
+  #open{padding:64px 0 44px}
+  .epi-q{font-family:var(--serif);font-style:italic;font-weight:700;font-size:clamp(40px,8.5vw,92px);line-height:.98;letter-spacing:-.02em;margin:0;max-width:15ch}
+  .epi-src{font-family:var(--mono);text-transform:uppercase;letter-spacing:.2em;font-size:13px;color:var(--smudge);margin:16px 0 0}
+  .epi-claim{font-size:clamp(19px,2.4vw,24px);line-height:1.42;max-width:60ch;margin:26px 0 0}
+  .epi-claim em{font-style:italic}
+  .epi-claim.big{font-family:var(--disp);font-weight:900;text-transform:uppercase;font-size:clamp(22px,3.4vw,36px);line-height:1.05;letter-spacing:-.01em;margin-top:20px;max-width:22ch}
+  .epi-claim.big em{color:var(--blood);font-style:normal}
+
+  /* ---------- MONEY / INCENTIVE ---------- */
+  #money{background:var(--ink);color:var(--paper);border-top:6px solid var(--blood)}
+  #money h2{color:var(--paper)}
+  #money .secnum{color:var(--gold)}
+  #money .lead{color:var(--paper);opacity:.92}
+  #money .mapnote{color:var(--paper)}
+
+  /* ---------- EVIDENCE ---------- */
+  #evidence{background:var(--paper-2)}
+  .exhibits{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:26px}
+  .ex{background:var(--paper);border:3px solid var(--ink);position:relative;padding:24px}
+  .ex .tag{position:absolute;top:-14px;left:18px;background:var(--blood);color:var(--paper);
+    font-family:var(--mono);font-weight:700;font-size:11px;letter-spacing:.16em;padding:5px 10px;text-transform:uppercase}
+  .ex h3{margin-top:6px}
+  .ex .who{font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--smudge)}
+  .ex ul{margin:12px 0 0;padding-left:18px;font-size:15.5px;line-height:1.5}
+  .ex ul li{margin:5px 0}
+  .ex .facts{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;
+    margin-top:16px;display:flex;gap:6px;flex-wrap:wrap}
+  .ex .facts span{border:1.5px solid var(--ink);padding:3px 7px}
+
+  /* ---------- CHALLENGES ---------- */
+  #challenges{background:var(--ink);color:var(--paper);border-top:6px solid var(--blood)}
+  #challenges h2{color:var(--paper)}
+  #challenges .secnum{color:var(--gold)}
+  #challenges .lead{color:var(--paper);opacity:.9}
+  .probs{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:2px;
+    background:rgba(242,236,221,.18);border:1px solid rgba(242,236,221,.18);margin-top:28px}
+  .prob{background:var(--ink);padding:22px 20px}
+  .prob .hd{display:flex;align-items:baseline;gap:10px}
+  .prob .no{font-family:var(--disp);font-weight:900;color:var(--blood);font-size:26px;line-height:1}
+  .prob h3{color:var(--paper);margin:0;font-size:18px}
+  .prob .hard{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;
+    margin-left:auto;padding:3px 7px;border:1px solid var(--gold);color:var(--gold);white-space:nowrap}
+  .prob p{color:rgba(242,236,221,.82);font-size:15px;margin:12px 0 0;max-width:none;font-family:var(--serif)}
+  .prob .move{font-family:var(--mono);font-size:12.5px;color:var(--paper);margin-top:12px;
+    border-left:3px solid var(--blood);padding-left:10px;line-height:1.45}
+  .prob .move b{color:var(--gold);letter-spacing:.06em}
+
+  /* ---------- DOMAINS ---------- */
+  .domains{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
+  .dom{font-family:var(--disp);font-weight:900;text-transform:uppercase;font-size:clamp(17px,2.4vw,30px);
+    letter-spacing:-.01em;border:3px solid var(--ink);padding:8px 14px;line-height:1}
+  .dom:nth-child(3n){background:var(--blood);color:var(--paper);border-color:var(--blood)}
+  .dom:nth-child(4n){background:var(--ink);color:var(--paper)}
+
+  /* ---------- COST ---------- */
+  #cost{background:var(--gold);color:var(--ink);border-top:6px solid var(--ink);border-bottom:6px solid var(--ink)}
+  .bignum{font-family:var(--disp);font-weight:900;font-size:clamp(90px,22vw,260px);line-height:.8;
+    letter-spacing:-.04em;margin:10px 0}
+  #cost .secnum{color:var(--ink)}
+  .costgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:2px;background:var(--ink);border:3px solid var(--ink);margin-top:20px}
+  .costgrid div{background:var(--gold);padding:16px}
+  .costgrid .k{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;opacity:.7}
+  .costgrid .v{font-family:var(--disp);font-weight:900;text-transform:uppercase;font-size:19px;margin-top:4px}
+
+  /* ---------- SEED ---------- */
+  .grow{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px;margin-top:26px;counter-reset:g}
+  .grow .step{border-top:4px solid var(--blood);padding-top:12px}
+  .grow .step::before{counter-increment:g;content:"→ " counter(g);font-family:var(--mono);
+    font-size:12px;letter-spacing:.1em;color:var(--blood);font-weight:700}
+  .grow .step h3{font-size:17px;margin:8px 0 6px}
+  .grow .step p{font-size:15px;margin:0}
+
+  /* ---------- SIGN OFF ---------- */
+  #signoff{background:var(--ink);color:var(--paper);text-align:center;padding:88px 0}
+  #signoff .big{font-family:var(--disp);font-weight:900;text-transform:uppercase;
+    font-size:clamp(42px,10vw,120px);line-height:.86;letter-spacing:-.03em;margin:0}
+  #signoff .big em{color:var(--blood);font-style:normal}
+  #signoff .cta{font-family:var(--mono);letter-spacing:.18em;text-transform:uppercase;font-size:13px;
+    margin-top:26px;opacity:.85}
+  #signoff .circleA{font-family:var(--disp);font-weight:900;font-size:80px;
+    border:5px solid var(--blood);border-radius:50%;width:130px;height:130px;display:flex;
+    align-items:center;justify-content:center;margin:0 auto 30px;color:var(--blood)}
+
+  footer{background:var(--ink);color:var(--paper);border-top:1px solid rgba(242,236,221,.2);
+    font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+    padding:26px 0;opacity:.6}
+  footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+
+  /* ---------- PHONE-FIRST ---------- */
+  @media(max-width:720px){
+    body{font-size:17px}
+    .exhibits{grid-template-columns:1fr}
+    .row{grid-template-columns:96px 1fr}
+    .row .lyr{padding:12px 10px;font-size:12px}
+    ol.theses li{padding-left:60px}
+    ol.theses li::before{font-size:32px;width:48px}
+    .anarch{display:none}
+  }
+  @media(max-width:560px){
+    section{padding:46px 0}
+    .wrap{padding:0 18px}
+    .parts,.probs,.costgrid,.grow{grid-template-columns:1fr}
+    h2{font-size:clamp(30px,9vw,44px)}
+    .sechead{gap:12px}
+    .prob .hard{margin-left:0}
+    figcaption{font-size:15px}
+  }
+</style>
+</head>
+<body>
+
+<!-- ============================ MASTHEAD ============================ -->
+<header class="masthead">
+  <div class="wrap">
+    <div class="strip">
+      <span>№ 001 · A Pamphlet</span>
+      <span>No Server · No Account · No Middleman</span>
+      <span>Price: 0 · Take One</span>
+    </div>
+    <div class="anarch">Ⓐ</div>
+    <h1 class="title">Reclaim</h1>
+    <p class="subtitle">The software is yours. So is the data. It always was, they just built a business on convincing you otherwise.</p>
+    <div class="deck">
+      <b class="hot">A Manifesto</b>
+      <b class="hot">A Strategy</b>
+      <b>The Hard Parts, Honestly</b>
+      <b>Cost To Run: Nothing</b>
+    </div>
+  </div>
+</header>
+<div class="rule blood"></div>
+
+<!-- ============================ EPIGRAPH ============================ -->
+<section id="open">
+  <div class="wrap">
+    <p class="epi-q">"Software is eating the world."</p>
+    <p class="epi-src">Marc Andreessen · 2011</p>
+    <p class="epi-claim">He was right. He just never said the rest: <em>who owns the software</em>, and whether it eats <em>for</em> you or eats <em>you</em>. For twenty years the answer did not change. Someone else owned it, and you were the meal.</p>
+    <p class="epi-claim big">That is about to flip. Give this <em>two minutes</em>. It may change how you see everything you tap, type, and pay for.</p>
+
+    <figure class="photo ink gray">
+      <div class="frame"><img loading="lazy" decoding="async" src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/Black_Marble_Americas.jpg/1280px-Black_Marble_Americas.jpg" alt="Earth at night from space, the continents traced in the glow of city lights"></div>
+      <figcaption>This is the world software already runs. Every light is a life lived through a device someone else owns. The only question left is who that someone is.<span class="cred">NASA, Black Marble · public domain</span></figcaption>
+    </figure>
+  </div>
+</section>
+<div class="rule"></div>
+
+<!-- ============================ OPENING ============================ -->
+<section id="thesis">
+  <div class="wrap">
+    <div class="sechead"><span class="secnum">00</span><span class="kicker">The claim</span></div>
+    <p class="lead">We have entered a new age of software and we are still thinking in the old one: profit, platforms, centralization, moats. The real revolution isn't another app store. It's <strong class="hit">highly personalized software that is free to run</strong>, software that lives on your own devices, that no company sits in the middle of. The pieces already exist. They're already free. This is the argument for using them.</p>
+    <p style="margin-top:22px">For a decade, decentralization was a promise engineers kept making and users kept ignoring. Not because the tech didn't work (it worked fine), but because it was inconvenient, and convenience is the only force that has ever decided what wins. What changed is that machines now write software for pennies. And the software they write best isn't the giant general platform. It's the tool built for exactly one person. Personalization is the thing decentralization was always missing. <mark>Personal software is more convenient than any platform</mark>, and personal software has no reason to phone home.</p>
+
+    <p style="margin-top:22px"><strong class="hit">Look at what the last twenty years actually built.</strong> A world where your messages, your photos, your friendships, your location and your children's faces all live on someone else's computer. Indexed. Ranked. Sold back to you as a feature. You never agreed to this. You clicked accept because there was no other button.</p>
+
+    <figure class="photo duo">
+      <div class="frame"><img loading="lazy" decoding="async" src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/33/CCTV_cameras_in_Mumbai.jpg/1280px-CCTV_cameras_in_Mumbai.jpg" alt="A dense cluster of surveillance cameras mounted on a pole, all pointing outward"></div>
+      <figcaption>Somewhere a machine is watching, indexing and monetising an ordinary life. This was never the only way to build software. It was just the profitable one.<span class="cred">CCTV cameras, Mumbai · CC0</span></figcaption>
+    </figure>
+
+    <p style="margin-top:22px">Here is the turn. The thing that made all that surveillance necessary, the huge servers, the accounts, the data to justify them, is exactly the thing that just became optional. So look at the two shapes below, and pick one.</p>
+
+    <figure class="plate">
+      <svg viewBox="0 0 820 340" role="img" aria-label="A centralized star network on the left, where everything routes through one owner, versus a decentralized mesh network on the right, where peers connect directly">
+        <defs>
+          <marker id="ah" markerWidth="8" markerHeight="8" refX="6.5" refY="4" orient="auto">
+            <path d="M0,0 L8,4 L0,8 Z" fill="#d81e05"/>
+          </marker>
+        </defs>
+        <text x="200" y="34" text-anchor="middle" fill="#d81e05" style="font:700 27px ui-monospace,Menlo,monospace;letter-spacing:2px">THEIR WAY</text>
+        <text x="610" y="34" text-anchor="middle" fill="#0f0d0b" style="font:700 27px ui-monospace,Menlo,monospace;letter-spacing:2px">OUR WAY</text>
+        <line x1="410" y1="58" x2="410" y2="300" stroke="#0f0d0b" stroke-width="2" stroke-dasharray="4 8" opacity=".35"/>
+        <g stroke="#d81e05" stroke-width="2.5">
+          <line x1="320" y1="190" x2="240" y2="190" marker-end="url(#ah)"/>
+          <line x1="260" y1="294" x2="220" y2="224.6" marker-end="url(#ah)"/>
+          <line x1="140" y1="294" x2="180" y2="224.6" marker-end="url(#ah)"/>
+          <line x1="80" y1="190" x2="160" y2="190" marker-end="url(#ah)"/>
+          <line x1="140" y1="86" x2="180" y2="155.4" marker-end="url(#ah)"/>
+          <line x1="260" y1="86" x2="220" y2="155.4" marker-end="url(#ah)"/>
+        </g>
+        <g fill="#e6e6e2" stroke="#0f0d0b" stroke-width="2.5">
+          <circle cx="320" cy="190" r="15"/>
+          <circle cx="260" cy="294" r="15"/>
+          <circle cx="140" cy="294" r="15"/>
+          <circle cx="80" cy="190" r="15"/>
+          <circle cx="140" cy="86" r="15"/>
+          <circle cx="260" cy="86" r="15"/>
+        </g>
+        <circle cx="200" cy="190" r="36" fill="#d81e05" stroke="#0f0d0b" stroke-width="2.5"/>
+        <text x="200" y="196" text-anchor="middle" fill="#e6e6e2" style="font:700 15px ui-monospace,Menlo,monospace;letter-spacing:1px">OWNER</text>
+        <g stroke="#0f0d0b" stroke-width="2.5" fill="none">
+          <line x1="728" y1="190" x2="669" y2="292"/>
+          <line x1="669" y1="292" x2="551" y2="292"/>
+          <line x1="551" y1="292" x2="492" y2="190"/>
+          <line x1="492" y1="190" x2="551" y2="88"/>
+          <line x1="551" y1="88" x2="669" y2="88"/>
+          <line x1="669" y1="88" x2="728" y2="190"/>
+          <line x1="728" y1="190" x2="492" y2="190"/>
+          <line x1="669" y1="292" x2="551" y2="88"/>
+          <line x1="551" y1="292" x2="669" y2="88"/>
+        </g>
+        <g stroke="#0f0d0b" stroke-width="2.5">
+          <circle cx="728" cy="190" r="15" fill="#d81e05"/>
+          <circle cx="669" cy="292" r="15" fill="#e6e6e2"/>
+          <circle cx="551" cy="292" r="15" fill="#e6e6e2"/>
+          <circle cx="492" cy="190" r="15" fill="#d81e05"/>
+          <circle cx="551" cy="88" r="15" fill="#e6e6e2"/>
+          <circle cx="669" cy="88" r="15" fill="#e6e6e2"/>
+        </g>
+      </svg>
+      <figcaption>Left: one owner in the middle, every connection and every byte routed through them. Right: the same people connect directly, and there is no middle to own you.</figcaption>
+    </figure>
+
+    <p style="margin-top:20px;text-align:center"><span class="stamp">Read this as a pamphlet</span> &nbsp; <span class="stamp ink">Then go build</span></p>
+  </div>
+</section>
+
+<!-- ============================ MANIFESTO ============================ -->
+<section id="manifesto">
+  <div class="wrap">
+    <div class="sechead"><span class="secnum">01</span><span class="kicker" style="color:var(--gold)">Part one: the manifesto</span></div>
+    <h2>Ten Theses<br>On Reclaiming<br>Software &amp; Data</h2>
+    <p class="lead">Nail these to the door.</p>
+
+    <figure class="photo duo">
+      <div class="frame"><img loading="lazy" decoding="async" src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/Eug%C3%A8ne_Delacroix_-_La_libert%C3%A9_guidant_le_peuple.jpg/1280px-Eug%C3%A8ne_Delacroix_-_La_libert%C3%A9_guidant_le_peuple.jpg" alt="Delacroix's painting Liberty Leading the People: a woman holding the tricolour leads figures over a barricade"></div>
+      <figcaption>The cost of doing it yourself just collapsed again. Every previous time that happened, from the printed page to radio to the web, power moved from the few to the many. This is that moment for software.<span class="cred">Eugène Delacroix, «La Liberté guidant le peuple», 1830 · public domain</span></figcaption>
+    </figure>
+
+    <ol class="theses">
+      <li>
+        <div class="th">Software is rented, not owned. We take it back.</div>
+        <div class="gloss">You do not own the apps you depend on. You lease access, and the lease can be revoked, repriced, or discontinued the moment it stops serving someone else's quarter.</div>
+      </li>
+      <li>
+        <div class="th">Your data is not a product. It lives with you.</div>
+        <div class="gloss">The default is inverted: your life is uploaded so a stranger can sell it back to you as a feature. Reverse it. Data stays on the device in your hand, or a machine in your home, and nowhere else unless you say so.</div>
+      </li>
+      <li>
+        <div class="th">Convenience is the only thing that ever wins.</div>
+        <div class="gloss">Decentralization lost every round because it was harder to use. This is not a moral failing of users. It is a design failing of builders. Whoever makes it effortless takes the field.</div>
+      </li>
+      <li>
+        <div class="th">The most powerful software is the most personal.</div>
+        <div class="gloss">An app built for one human, their exact problem, their exact way of seeing, beats a platform built for a billion. Generality was a compromise we made because software was expensive to build. It isn't anymore.</div>
+      </li>
+      <li>
+        <div class="th">Building software is now nearly free.</div>
+        <div class="gloss">A language model will write your app for the price of a coffee. The scarce resource stopped being engineers and became imagination about what to build for whom.</div>
+      </li>
+      <li>
+        <div class="th">We do not need permission. Or a server. Or a company.</div>
+        <div class="gloss">No sign-up. No backend. No terms of service. The browser is the runtime, the device is the database, and a static host is the distributor. The stack for a real app now fits in a single file.</div>
+      </li>
+      <li>
+        <div class="th">Turn the giants' free tiers against them.</div>
+        <div class="gloss">Distribute on their edges. Back up in their free storage. Keep the data at home. Use the empire's roads without paying the empire's rent, and give it nothing to build a moat from.</div>
+      </li>
+      <li>
+        <div class="th">A moat is a wall around something that used to be yours.</div>
+        <div class="gloss">Every network effect and data advantage is a fence around your own life. We are not building better fences. We are declining to be fenced.</div>
+      </li>
+      <li>
+        <div class="th">Build first for the people platforms ignore.</div>
+        <div class="gloss">The neurodivergent. The specific. The singular. Anyone a mass-market product rounded off. Software designed for one person's brain is exactly what no platform will ever ship, and exactly what we now can.</div>
+      </li>
+      <li>
+        <div class="th">Fork it. Ship it. Keep your data. Repeat.</div>
+        <div class="gloss">This doesn't spread through a company. It spreads because everyone is already building software with LLMs. Hand them the pattern and each new app becomes a seed for the next.</div>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<!-- ============================ FIRST PRINCIPLES ============================ -->
+<section id="firstprinciples">
+  <div class="wrap">
+    <div class="sechead"><span class="secnum">02</span><span class="kicker">Strip it to the studs</span></div>
+    <h2>What Does An App<br>Actually Need?</h2>
+    <p class="lead">Forget how apps are usually built. From first principles, what are the irreducible parts, and what do they truly cost?</p>
+
+    <figure class="photo gray tall">
+      <div class="frame"><img loading="lazy" decoding="async" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/56/Gutenberg_Bible_B42_Genesis.JPG/1280px-Gutenberg_Bible_B42_Genesis.JPG" alt="A page from the Gutenberg Bible with two columns of blackletter text and hand-painted initials"></div>
+      <figcaption>The last time making and copying got this cheap, it was a printed page. Knowledge walked out of the locked room and never came back. Software is walking out now.<span class="cred">Gutenberg Bible, c. 1455 · public domain</span></figcaption>
+    </figure>
+
+    <div class="parts">
+      <div class="part">
+        <svg class="pic" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="26" height="22" rx="2"/><line x1="3" y1="12" x2="29" y2="12"/><circle cx="7" cy="8.5" r="1" fill="currentColor" stroke="none"/><circle cx="11" cy="8.5" r="1" fill="currentColor" stroke="none"/><circle cx="15" cy="8.5" r="1" fill="currentColor" stroke="none"/></svg>
+        <div class="n">NEED 01</div>
+        <div class="need">Somewhere to run</div>
+        <div class="have">The browser already runs full applications on every phone and laptop on earth.</div>
+        <div class="cost">Cost · £0</div>
+      </div>
+      <div class="part">
+        <svg class="pic" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="16" cy="16" r="12"/><ellipse cx="16" cy="16" rx="5" ry="12"/><line x1="4" y1="16" x2="28" y2="16"/></svg>
+        <div class="n">NEED 02</div>
+        <div class="need">Somewhere to serve it</div>
+        <div class="have">Free hosting, like GitHub Pages, puts a copy in front of the whole world.</div>
+        <div class="cost">Cost · £0</div>
+      </div>
+      <div class="part">
+        <svg class="pic" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="3" width="14" height="26" rx="2.5"/><line x1="14" y1="25.5" x2="18" y2="25.5"/></svg>
+        <div class="n">NEED 03</div>
+        <div class="need">Somewhere to keep data</div>
+        <div class="have">The phone or laptop already in your hand, using its own memory. Optional free backup.</div>
+        <div class="cost">Cost · £0</div>
+      </div>
+      <div class="part">
+        <svg class="pic" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="7" cy="16" r="4"/><circle cx="25" cy="16" r="4"/><line x1="11" y1="16" x2="21" y2="16"/><polyline points="18,13 21,16 18,19"/><polyline points="14,13 11,16 14,19"/></svg>
+        <div class="n">NEED 04</div>
+        <div class="need">A way to sync</div>
+        <div class="have">Your own devices connect straight to each other, so your data never passes through a company.</div>
+        <div class="cost">Cost · £0</div>
+      </div>
+      <div class="part">
+        <svg class="pic" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="16" y1="4" x2="16" y2="28"/><line x1="4" y1="16" x2="28" y2="16"/><line x1="7.5" y1="7.5" x2="24.5" y2="24.5"/><line x1="24.5" y1="7.5" x2="7.5" y2="24.5"/></svg>
+        <div class="n">NEED 05</div>
+        <div class="need">A way to build it</div>
+        <div class="have">A language model writes it from a description. The only bill on the whole page.</div>
+        <div class="cost">Cost · ~£few</div>
+      </div>
+    </div>
+    <p class="verdict">Accounts, servers, subscriptions, cloud databases: none of it is <span class="x">required</span>. It was a <span class="x">business model</span>, not a requirement.</p>
+  </div>
+</section>
+
+<!-- ============================ STRATEGY ============================ -->
+<div class="rule"></div>
+<section id="strategy">
+  <div class="wrap">
+    <div class="sechead"><span class="secnum">03</span><span class="kicker">Part two: the strategy</span></div>
+    <h2>How This<br>Actually Works</h2>
+    <p class="lead">Not a whitepaper. A stack you can build on this weekend, every layer already free, every layer already proven.</p>
+    <p class="taphint"><b>Tip:</b> tap or hover any dotted term for plain English.</p>
+
+    <div class="stack">
+      <div class="row"><div class="lyr">Build</div><div class="val">Describe the app to an <span class="term" tabindex="0">LLM<span class="pop"><b>Large Language Model.</b> The AI that writes the code from your description, like Claude. It turns "I want an app that does X" into a working app for the price of a coffee.</span></span> like Claude. A shared framework and prompt library (<a href="https://github.com/danielmiessler/LifeOS" target="_blank" rel="noopener">the PAI pattern</a>) lets non-engineers build real, personal software without learning to code.</div></div>
+      <div class="row"><div class="lyr">Run</div><div class="val">It runs as a <span class="term" tabindex="0">PWA<span class="pop"><b>Progressive Web App.</b> A website that installs on your phone like a normal app and runs with no internet. This is what lets you skip the app store, the review, and the 30% cut.</span></span>: one file that installs on your phone like an ordinary app and works with no internet. No app store, no review, no cut.</div></div>
+      <div class="row"><div class="lyr">Distribute</div><div class="val"><span class="term" tabindex="0">GitHub Pages<span class="pop"><b>GitHub Pages.</b> Free web hosting from GitHub, the site the world's code already lives on. It puts your app online for everyone at no cost, and quietly keeps every past version.</span></span> puts it online for the whole world, free, and quietly keeps every past version. Publishing is one click, and you own the copy, not a company.</div></div>
+      <div class="row"><div class="lyr">Store</div><div class="val">The information lives on your own phone or laptop (<span class="term" tabindex="0">localStorage<span class="pop"><b>localStorage &amp; IndexedDB.</b> The browser's built-in ways of saving data straight onto your device, with no company server involved. Your information simply stays in your hand.</span></span> and <span class="term" tabindex="0">IndexedDB<span class="pop"><b>IndexedDB.</b> The browser's larger on-device store, for apps that need to keep more. Still entirely on your machine, still yours.</span></span>), never on a company's computer. Want a backup? Tuck an encrypted copy into any free space you already have. It is a safe, not a landlord.</div></div>
+      <div class="row"><div class="lyr">Sync</div><div class="val">Your phone and laptop talk to each other directly (<span class="term" tabindex="0">WebRTC<span class="pop"><b>WebRTC.</b> A browser technology that links two devices directly, phone to laptop, with no company server in between. It is how your data moves across your own devices without anyone else seeing it.</span></span>), with nobody in between. Whatever you changed most recently wins, so the two never disagree. No one else ever sees your data.</div></div>
+      <div class="row"><div class="lyr">Automate</div><div class="val">A laptop at home can refresh the public page on a schedule, all by itself. The "server" is just your own machine, and nobody outside ever knows it is there.</div></div>
+      <div class="row"><div class="lyr">Host at home</div><div class="val">Want it always on? A <b>Raspberry Pi</b> (a computer the size of a playing card, about the price of a nice dinner) or an old laptop becomes your own private server. As independent as you want to be.</div></div>
+      <div class="row"><div class="lyr">Discover</div><div class="val">The same free public folders that already hold the world's code can hold listings too: searchable, backed up everywhere at once, owned by no one. Discovery without a landlord.</div></div>
+    </div>
+
+    <p style="margin-top:26px">The trick that makes it humane: <strong class="hit">hide every ugly detail from normal people.</strong> They open something on their phone that just works. Behind the glass it may be running fully device to device, or half on a small computer at home, or leaning on a free service to get started. They never need to know. The politics live in the plumbing. The experience is just convenient.</p>
+
+    <h3 style="margin-top:44px;color:var(--blood-deep)">Where it starts: hybrid, then drift free</h3>
+    <p>You don't have to win the whole thing on day one. Start hybrid. Lean on a cloud provider to bootstrap the parts that are still hard (payments, identity, discovery at scale). Then, by design and by the way the network grows, the center of gravity drifts steadily toward the edges. <span class="redact">Centralization becomes optional.</span> The one rule that never bends: <strong class="hit">never let a provider accumulate enough of everyone's data to build a moat.</strong></p>
+  </div>
+</section>
+
+<aside class="callout">
+  <div class="wrap">
+    <span class="kicker">Why GitHub</span>
+    <p class="pull">We are not locked into GitHub. <span class="flip">GitHub is locked into us.</span></p>
+    <div class="why">
+      <div><h4>Free hosting</h4><p>GitHub Pages serves your app to the whole world for nothing, versioned by default, on infrastructure you never pay for.</p></div>
+      <div><h4>Git is already decentralized</h4><p>The technology underneath is a distributed version-control system. Every clone is a complete copy. There is no single original to seize or switch off.</p></div>
+      <div><h4>No lock-in</h4><p>If Pages ever disappeared, a static site moves anywhere in an afternoon, including somewhere fully distributed. Nothing here depends on GitHub existing.</p></div>
+      <div><h4>It cannot be taken down</h4><p>GitHub is the platform the world's code runs on. The infrastructure that runs everything depends on it staying up, so it does. We borrow that permanence and owe it nothing.</p></div>
+    </div>
+    <figure class="photo gray" style="margin-top:38px">
+      <div class="frame"><img loading="lazy" decoding="async" src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/500kV_3-Phase_Transmission_Lines.png/1280px-500kV_3-Phase_Transmission_Lines.png" alt="High-voltage electricity transmission towers and lines marching across the land"></div>
+      <figcaption>The grid does not ask your permission to exist. Neither does the network the world's code sits on. Build on the thing that is already too big to switch off.<span class="cred">Transmission lines · Varistor60 · CC BY-SA 4.0</span></figcaption>
+    </figure>
+  </div>
+</aside>
+
+<!-- ============================ EVIDENCE ============================ -->
+<div class="rule blood"></div>
+<section id="evidence">
+  <div class="wrap">
+    <div class="sechead"><span class="secnum">04</span><span class="kicker">This is not a thought experiment</span></div>
+    <h2>Field Evidence</h2>
+    <p class="lead">Two apps. Already built. Already running. Zero backend, zero accounts, zero monthly cost. Each designed for exactly one person, which is the entire point.</p>
+
+    <figure class="photo gray">
+      <div class="frame"><img loading="lazy" decoding="async" src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/The_Tailor%27s_Workshop_by_Quiringh_Gerritsz_van_Brekelenkam.jpg/1280px-The_Tailor%27s_Workshop_by_Quiringh_Gerritsz_van_Brekelenkam.jpg" alt="A seventeenth-century painting of tailors sewing by a window in their workshop"></div>
+      <figcaption>A tailor makes one suit for one body. For centuries that was the only way to get something that truly fit. Software just became bespoke again, and almost free.<span class="cred">Quiringh van Brekelenkam, «The Tailor's Workshop», c. 1660 · public domain</span></figcaption>
+    </figure>
+
+    <div class="exhibits">
+      <div class="ex">
+        <div class="tag">Exhibit A</div>
+        <h3>The Technicolour Planner</h3>
+        <div class="who">Built for Sarah. Tattoo artist. Autistic. Thinks in colour.</div>
+        <ul>
+          <li>A content planner that is colour-first, because she reads colour faster than text.</li>
+          <li>Predictable, low-surprise, glanceable, designed around her brain, not a mass market.</li>
+          <li>One self-contained page. Double-click to run. No install, no account, no internet.</li>
+          <li>Her data is hers: plain JSON export and import. Nothing is ever locked in.</li>
+        </ul>
+        <div class="facts"><span>Single file</span><span>Offline</span><span>No backend</span><span>Data = hers</span></div>
+      </div>
+      <div class="ex">
+        <div class="tag">Exhibit B</div>
+        <h3>Pole Position</h3>
+        <div class="who">Built for Ben. First job hunt. Themed like the cars he loves.</div>
+        <ul>
+          <li>A job-hunt cockpit that turns a scary search into a clear next lap.</li>
+          <li>Seeded locally with Claude: the right jobs found for him, so he barely touches the job platforms.</li>
+          <li>Installs like an app, lives on GitHub Pages for free, and syncs his iPhone and laptop straight to each other, with no company in the middle.</li>
+          <li>No company server anywhere. Every piece of his data stays on his own two devices.</li>
+        </ul>
+        <div class="facts"><span>Installable</span><span>GitHub Pages</span><span>Direct sync</span><span>No middleman</span></div>
+      </div>
+    </div>
+    <p style="margin-top:24px;font-family:var(--mono);font-size:14px;letter-spacing:.03em;line-height:1.5">
+      Neither could a platform have shipped. A platform builds for the median. <strong class="hit">These were built for one person each, and that is why they are better.</strong>
+    </p>
+  </div>
+</section>
+
+<!-- ============================ DOMAINS ============================ -->
+<section id="domains">
+  <div class="wrap">
+    <div class="sechead"><span class="secnum">05</span><span class="kicker">The whole map is up for grabs</span></div>
+    <h2>What There Is<br>To Reclaim</h2>
+    <p class="lead">This isn't only classifieds. Look at almost any category of consumer or small-business software. Underneath the subscription is a job that a personal, local, free-to-run app can now do. Here is the map.</p>
+
+    <div class="map">
+      <div class="mapcard">
+        <h3>Buying &amp; Selling</h3>
+        <span class="today">Instead of <s>eBay · Ricardo · Craigslist</s></span>
+        <p class="re">Your listing or your auction runs on your own device. Buyers connect straight to it. A shared public directory, backed up everywhere at once, carries discovery, with no company skimming every sale.</p>
+      </div>
+      <div class="mapcard">
+        <h3>Photos &amp; Design</h3>
+        <span class="today">Instead of <s>Adobe Photoshop · Illustrator</s></span>
+        <p class="re">Editing runs in the browser, on your machine, with local and LLM-driven image tools. Open files in, open files out. No monthly rent to touch your own pictures.</p>
+      </div>
+      <div class="mapcard">
+        <h3>Documents &amp; Slides</h3>
+        <span class="today">Instead of <s>Word · PowerPoint · Google Docs</s></span>
+        <p class="re">Most people use under a tenth of what these do. Build the thin slice you actually use, and read and write the same .docx and .md, so nothing is ever trapped in one vendor's format.</p>
+      </div>
+      <div class="mapcard">
+        <h3>Video &amp; Motion</h3>
+        <span class="today">Instead of <s>Premiere · After Effects</s></span>
+        <p class="re">Describe the edit and let programmatic video render it on your own machine. The creative work stays yours, and the render farm is just your laptop.</p>
+      </div>
+      <div class="mapcard">
+        <h3>Streaming</h3>
+        <span class="today">Instead of <s>Netflix · YouTube</s></span>
+        <p class="re">The decentralized plumbing already exists. <span class="term" tabindex="0">BitTorrent<span class="pop"><b>BitTorrent.</b> A way of sharing files where everyone watching also serves little pieces to everyone else, so there is no central server to own or shut down. The audience is the infrastructure.</span></span> and peer distribution let you watch from your own and your community's infrastructure, with no data centre in the middle.</p>
+      </div>
+      <div class="mapcard">
+        <h3>Messaging &amp; Sharing</h3>
+        <span class="today">Instead of <s>WhatsApp · iMessage</s></span>
+        <p class="re">Scrambled so only the two of you can read it, and sent straight between the people who matter. A file to your kid stops passing through a company's cloud, with its backdoors, and just goes to your kid.</p>
+      </div>
+      <div class="mapcard">
+        <h3>Gaming</h3>
+        <span class="today">Instead of <s>Steam · the consoles</s></span>
+        <p class="re">The hard one, honestly. But LLMs are already generating worlds, rules and characters. Personal and community-run games are moving from impossible to buildable.</p>
+      </div>
+      <div class="mapcard">
+        <h3>Your Whole Toolkit</h3>
+        <span class="today">Instead of <s>a stack of subscriptions</s></span>
+        <p class="re">Notes, budgets, planners, booking, invoicing. The small tools you pay monthly rent for are exactly the ones an LLM can build you once, for the price of a coffee.</p>
+      </div>
+    </div>
+    <p class="mapnote">Generality was always bloat. You only ever used the <span class="x">slice built for you</span>.</p>
+
+    <figure class="photo gray tall">
+      <div class="frame"><img loading="lazy" decoding="async" src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/97/The_Earth_seen_from_Apollo_17.jpg/1280px-The_Earth_seen_from_Apollo_17.jpg" alt="The whole Earth photographed from Apollo 17, a single planet against black space"></div>
+      <figcaption>Eight billion people and no head office. The network was always supposed to look like this: everyone connected, no one sitting in the middle.<span class="cred">NASA · Apollo 17, 1972 · public domain</span></figcaption>
+    </figure>
+
+    <div class="bizpanel">
+      <span class="kicker">The real question for a small business</span>
+      <h3>But how do you get found?</h3>
+      <p class="lead">If your app is free and yours, the hard part isn't the software. It's customers. Today a small business rents access to its own customers from a platform, pays the rent, follows the rules, and can be switched off on a whim. Here is the reclaimed answer.</p>
+      <div class="bizgrid">
+        <div><h4>Own the list</h4><p>Your customers and their contact details live with you, on your device, not inside a service you rent by the month.</p></div>
+        <div><h4>Own the storefront</h4><p>A single-file shop on GitHub Pages, versioned and free, that no marketplace can suspend, rank down, or charge you to appear in.</p></div>
+        <div><h4>Platforms are roads, not landlords</h4><p>Post to Instagram or Google for reach if it helps. Use them for the traffic, but bring the relationship and the data home.</p></div>
+        <div><h4>Word of mouth still works</h4><p>Trust travels along real networks. Small, real networks are exactly the reach a platform cannot fake, and cannot sell back to you.</p></div>
+        <div><h4>Marketing without an agency</h4><p>One person with an LLM now writes the listings, the posts, the outreach and the site that used to need a budget and a team.</p></div>
+      </div>
+      <p class="honest">The honest part: cold-start discovery is still the hardest wall (see The Hard Parts above). The move is to bootstrap on the reach you can borrow today, then drift free as your own list and network grow.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ CHALLENGES ============================ -->
+<div class="rule"></div>
+<section id="challenges">
+  <div class="wrap">
+    <div class="sechead"><span class="secnum">06</span><span class="kicker" style="color:var(--gold)">No hand-waving</span></div>
+    <h2>The Hard Parts</h2>
+    <p class="lead">This is where honest strategy separates from utopian noise. These are the walls. None are solved yet. Each has a direction of attack.</p>
+
+    <figure class="photo duo">
+      <div class="frame"><img loading="lazy" decoding="async" src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6a/1974_China_Great_Wall_01.jpg/1280px-1974_China_Great_Wall_01.jpg" alt="The Great Wall of China snaking along a mountain ridge into the distance"></div>
+      <figcaption>None of these walls are imaginary, and none of them are new. Walls get crossed the way they always have: slowly, together, by people who refuse to treat them as permanent.<span class="cred">The Great Wall of China · GraceMarcellaNorman · CC BY 2.0</span></figcaption>
+    </figure>
+
+    <div class="probs">
+      <div class="prob">
+        <div class="hd"><span class="no">01</span><h3>Discovery without a center</h3><span class="hard">Hard</span></div>
+        <p>With no central index, how does anyone find your flat listing or your auction? Search at scale is genuinely difficult to decentralize.</p>
+        <div class="move"><b>MOVE ·</b> Shared public folders anyone can search, backed up everywhere at once. Small local AI to rank what turns up. And the honest point that not everything needs to be findable worldwide, because most of life is local.</div>
+      </div>
+      <div class="prob">
+        <div class="hd"><span class="no">02</span><h3>Identity without an authority</h3><span class="hard">Hard</span></div>
+        <p>How do you know the seller is real, the buyer is trustworthy, the account is theirs, with no platform vouching for anyone?</p>
+        <div class="move"><b>MOVE ·</b> Cryptographic keys you hold. Webs of trust along real relationships (the Dunbar network). Reputation that travels with the person, not the platform.</div>
+      </div>
+      <div class="prob">
+        <div class="hd"><span class="no">03</span><h3>Payments</h3><span class="hard">Hardest</span></div>
+        <p>Money is the deepest moat. You cannot fully decentralize settlement overnight, and trust in payment is where platforms earn their cut.</p>
+        <div class="move"><b>MOVE ·</b> Bootstrap on existing rails at the edges. Keep the app in the middle of the experience but out of the middle of the money. Decentralize this last, not first.</div>
+      </div>
+      <div class="prob">
+        <div class="hd"><span class="no">04</span><h3>Always-on availability</h3><span class="hard">Medium</span></div>
+        <p>Your laptop sleeps. A service with no central computer is only up when the people running it are. Platforms win on the boring promise: always there.</p>
+        <div class="move"><b>MOVE ·</b> Cheap home hardware (Raspberry Pi). Free tiers as an availability layer. And the honesty that not everything must be instant, because some things can be eventually-available.</div>
+      </div>
+      <div class="prob">
+        <div class="hd"><span class="no">05</span><h3>Getting two homes connected</h3><span class="hard">Medium</span></div>
+        <p>Getting two devices at two homes to talk directly, through their routers, is fiddly. It works today, but still needs a tiny helper just to introduce them to each other.</p>
+        <div class="move"><b>MOVE ·</b> Keep that helper small, dumb and replaceable, so it only makes the introduction and never sees a word that passes between them.</div>
+      </div>
+      <div class="prob">
+        <div class="hd"><span class="no">06</span><h3>The desire to centralize</h3><span class="hard">Human</span></div>
+        <p>People want a center: who's famous, who's the star, the feed, the idol. TikTok and Instagram feed a real hunger. You can't out-engineer that.</p>
+        <div class="move"><b>MOVE ·</b> Don't fight the hunger, route around it. Let high-volume, want-to-be-seen activity ride shared infrastructure like GitHub. Keep the personal and the private fully at the edge.</div>
+      </div>
+      <div class="prob">
+        <div class="hd"><span class="no">07</span><h3>Trust, spam &amp; moderation</h3><span class="hard">Hard</span></div>
+        <p>No gatekeeper also means no bouncer. Abuse, spam and bad actors don't disappear because the architecture got prettier.</p>
+        <div class="move"><b>MOVE ·</b> Trust flows through real social graphs, not open firehoses. Moderation is local and chosen, not imposed. Small networks are naturally spam-resistant.</div>
+      </div>
+      <div class="prob">
+        <div class="hd"><span class="no">08</span><h3>The last mile of usability</h3><span class="hard">The whole game</span></div>
+        <p>If it's nerd-only software, it loses again. Every hard part above must vanish behind a screen a non-technical person finds effortless.</p>
+        <div class="move"><b>MOVE ·</b> Hide all of it. The user gets an app on their phone that just works. The decentralization is plumbing they never see. Convenience is the win condition, always.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ COST ============================ -->
+<section id="cost">
+  <div class="wrap">
+    <div class="sechead"><span class="secnum">07</span><span class="kicker">The whole point</span></div>
+    <h2>The Cost To Run</h2>
+    <div class="bignum">£0<span style="font-size:.3em">/mo</span></div>
+    <p class="lead" style="opacity:1">No servers to pay for. No subscriptions to collect. No infrastructure bill. The entire running cost of software built this way is <strong>nothing</strong>. The only cost is the tokens to build it, a few pounds, once, to an LLM.</p>
+    <div class="costgrid">
+      <div><div class="k">Hosting</div><div class="v">£0 · GitHub Pages</div></div>
+      <div><div class="k">Database</div><div class="v">£0 · the device</div></div>
+      <div><div class="k">Sync</div><div class="v">£0 · WebRTC P2P</div></div>
+      <div><div class="k">Backups</div><div class="v">£0 · free tiers</div></div>
+      <div><div class="k">To build</div><div class="v">~£few · tokens</div></div>
+    </div>
+    <p style="margin-top:22px;font-family:var(--serif)">This is the fact that breaks the old model. When software costs nothing to run and almost nothing to build, the entire logic of centralization (we must own everyone's data to justify the servers) simply evaporates. There are no servers to justify.</p>
+  </div>
+</section>
+
+<!-- ============================ WHERE'S THE MONEY ============================ -->
+<div class="rule blood"></div>
+<section id="money">
+  <div class="wrap">
+    <div class="sechead"><span class="secnum">08</span><span class="kicker" style="color:var(--gold)">The honest question</span></div>
+    <h2>Where's<br>The Money?</h2>
+    <p class="lead">Freedom is not an incentive. People are busy, invested in the world as it is, and they need to eat. If building this way does not pay, it does not happen. So here is the money, and the thing worth more than money, plainly.</p>
+
+    <figure class="photo gray">
+      <div class="frame"><img loading="lazy" decoding="async" src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/43/Gustave_Caillebotte_-_Fruit_Displayed_on_a_Stand_-_Google_Art_Project.jpg/1280px-Gustave_Caillebotte_-_Fruit_Displayed_on_a_Stand_-_Google_Art_Project.jpg" alt="Caillebotte's painting of a market stall piled high with fruit for sale"></div>
+      <figcaption>Value was always made at the stall, by the person who grew the fruit. The platforms simply built a till between the grower and the buyer, and kept a coin from every hand. Take the till out.<span class="cred">Gustave Caillebotte, «Fruit Displayed on a Stand», c. 1882 · public domain</span></figcaption>
+    </figure>
+
+    <div class="bizgrid" style="margin-top:30px">
+      <div><h4>The platform's cut was always yours</h4><p>The app store takes thirty percent. The marketplaces take a slice of every sale. Remove the toll booth and you keep what you earn. For a working business, that recovered cut is the first and biggest profit.</p></div>
+      <div><h4>Free software still pays its builders</h4><p>This already happened once. The world's servers run on free software, and companies earned billions supporting it. Millions make a living building on tools that cost nothing. The money moves from selling licences to selling skill, and skill stays scarce.</p></div>
+      <div><h4>Build once, get paid many times</h4><p>Millions of people want software shaped exactly to them and cannot make it. You can. Sell the template, or the ten-minute custom job, again and again. You are the architect they pay for the design, not the landlord charging rent forever.</p></div>
+      <div><h4>Get paid with no one in the middle</h4><p>Start with the rails everyone already uses: a card, a bank transfer, an invoice. And we have already built decentralized money, a way to send value from one person to another with no company in between. Ignore the casino and the hype around it. Keep the plumbing.</p></div>
+      <div><h4>The trillion-dollar migration</h4><p>The biggest companies on earth are rich because they own the middle. As the middle thins, that value does not vanish. It moves to the edges, to the people doing the work and the builders arming them. It is the largest shift of value software has ever seen, and it is only starting.</p></div>
+      <div><h4>The real dividend is your time</h4><p>Every subscription is a small monthly tax on your freedom. Every feed is an hour quietly taken. Software you own stops billing you and stops mining your attention. Build a tool once and it works for you forever, for nothing. Automating your own life was never about working more. It is about getting the hours back.</p></div>
+    </div>
+    <p class="mapnote" style="max-width:34ch">You are not building this so companies can go free. Let the machines do the work, answering to you for once. <span class="x">Freedom is the reason. Money is the plan. Your time is the prize.</span></p>
+  </div>
+</section>
+
+<!-- ============================ SEED ============================ -->
+<section id="seed">
+  <div class="wrap">
+    <div class="sechead"><span class="secnum">09</span><span class="kicker">Why it spreads on its own</span></div>
+    <h2>A Seed,<br>Not A Startup</h2>
+    <p class="lead">This doesn't need a company, a raise, or a launch. It grows the way ideas grow, because the conditions for it are already everywhere.</p>
+
+    <figure class="photo ink gray">
+      <div class="frame"><img loading="lazy" decoding="async" src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/79/Dandelion_seed_head_on_black_background.jpg/1280px-Dandelion_seed_head_on_black_background.jpg" alt="A backlit dandelion seed head against black, seeds ready to scatter"></div>
+      <figcaption>One head. A hundred seeds. Not one of them asks permission to land.<span class="cred">Photo: David Friel · CC BY 2.0</span></figcaption>
+    </figure>
+
+    <figure class="seedfig">
+      <svg viewBox="0 0 820 220" role="img" aria-label="One red node on the left branching outward into many nodes, a single app seeding the next">
+        <g stroke="#0f0d0b" stroke-width="2" fill="none">
+          <line x1="70" y1="110" x2="300" y2="45"/>
+          <line x1="70" y1="110" x2="300" y2="110"/>
+          <line x1="70" y1="110" x2="300" y2="175"/>
+          <line x1="300" y1="45" x2="560" y2="25"/>
+          <line x1="300" y1="45" x2="560" y2="70"/>
+          <line x1="300" y1="110" x2="560" y2="95"/>
+          <line x1="300" y1="110" x2="560" y2="140"/>
+          <line x1="300" y1="175" x2="560" y2="165"/>
+          <line x1="300" y1="175" x2="560" y2="200"/>
+          <line x1="560" y1="25" x2="762" y2="18"/>
+          <line x1="560" y1="70" x2="762" y2="60"/>
+          <line x1="560" y1="95" x2="762" y2="92"/>
+          <line x1="560" y1="140" x2="762" y2="138"/>
+          <line x1="560" y1="165" x2="762" y2="164"/>
+          <line x1="560" y1="200" x2="762" y2="202"/>
+        </g>
+        <g fill="#e6e6e2" stroke="#0f0d0b" stroke-width="2.5">
+          <circle cx="300" cy="45" r="11"/><circle cx="300" cy="110" r="11"/><circle cx="300" cy="175" r="11"/>
+        </g>
+        <g fill="#0f0d0b">
+          <circle cx="560" cy="25" r="7"/><circle cx="560" cy="70" r="7"/><circle cx="560" cy="95" r="7"/><circle cx="560" cy="140" r="7"/><circle cx="560" cy="165" r="7"/><circle cx="560" cy="200" r="7"/>
+        </g>
+        <g fill="#d81e05">
+          <circle cx="762" cy="18" r="5"/><circle cx="762" cy="60" r="5"/><circle cx="762" cy="92" r="5"/><circle cx="762" cy="138" r="5"/><circle cx="762" cy="164" r="5"/><circle cx="762" cy="202" r="5"/>
+        </g>
+        <circle cx="70" cy="110" r="19" fill="#d81e05" stroke="#0f0d0b" stroke-width="2.5"/>
+      </svg>
+      <figcaption>One app you built for yourself becomes the example the next person forks. The seed is the whole strategy.</figcaption>
+    </figure>
+
+    <div class="grow">
+      <div class="step"><h3>Everyone's already building</h3><p>Millions of people now make apps by describing them to an LLM. The builders are already here.</p></div>
+      <div class="step"><h3>Give them the pattern</h3><p>A good framework and smart prompts (<a href="https://github.com/danielmiessler/LifeOS" target="_blank" rel="noopener">the PAI approach</a>) lower build-your-own-app to writing a wish.</p></div>
+      <div class="step"><h3>Each app is a spore</h3><p>Every personal app someone ships is a working example and a starting point for the next person's.</p></div>
+      <div class="step"><h3>The network compounds</h3><p>As more build on the edges, discovery, trust and infrastructure grow, and the center keeps losing its grip.</p></div>
+    </div>
+    <p style="margin-top:26px">No one has to be convinced to abandon their platforms. They just have to build the one app they actually wanted, the one no platform would ever make for them, and discover it cost nothing and answers to no one. That feeling is the whole movement. It replicates by itself.</p>
+  </div>
+</section>
+
+<!-- ============================ START THE AVALANCHE ============================ -->
+<div class="rule"></div>
+<section id="avalanche">
+  <div class="wrap">
+    <div class="sechead"><span class="secnum">10</span><span class="kicker" style="color:var(--gold)">How we actually start</span></div>
+    <h2>Start The<br>Avalanche</h2>
+    <p class="lead">This begins with developers. If you can already build software, you are holding every tool on this page. You are the ones who plant the first seeds, before any of this is easy for everyone else. So plant one.</p>
+
+    <figure class="photo gray tall">
+      <div class="frame"><img loading="lazy" decoding="async" src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/db/Margaret_Hamilton_-_restoration.jpg/1280px-Margaret_Hamilton_-_restoration.jpg" alt="Margaret Hamilton standing beside a stack of Apollo flight software listings almost as tall as she is"></div>
+      <figcaption>Margaret Hamilton beside the Apollo flight code she led, in 1969. Software has always been a small number of people deciding what everyone else gets to do. This time, the small number can be all of us.<span class="cred">NASA / MIT, restored · public domain</span></figcaption>
+    </figure>
+
+    <ol class="steps">
+      <li><h4>Build one app for one person</h4><p>Not a platform. Not a startup. A tool for exactly one human you know: their real problem, their way of seeing. You can do it this weekend.</p></li>
+      <li><h4>Put it on GitHub Pages, keep the data on their device</h4><p>Ship it as a single file. Nothing phones home. Total cost so far: zero.</p></li>
+      <li><h4>Give it to them, and watch their face</h4><p>The recognition when software fits one person exactly is the whole fuel of this. Feel it once and you will not go back.</p></li>
+      <li><h4>Open it up, write down how you did it</h4><p>Make it <span class="term" tabindex="0">forkable<span class="pop"><b>Forkable.</b> Anyone can make their own complete copy with one click and build on it. That is how one app quietly becomes a thousand.</span></span>. Your one app becomes the starting point for the next person's, and the one after that.</p></li>
+      <li><h4>Share the pattern, not just the app</h4><p>Turn your prompts and scaffolding into a template a non-developer can run. That is how this reaches past the people who code.</p></li>
+      <li><h4>Build a missing piece of the commons</h4><p>Identity, discovery, payments at the edge. The hard walls get solved once, in the open, and then everyone walks through.</p></li>
+    </ol>
+
+    <figure class="photo gray tall">
+      <div class="frame"><img loading="lazy" decoding="async" src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/Starling_murmuration_at_Rome%27s_termini_station_02.jpg/1280px-Starling_murmuration_at_Rome%27s_termini_station_02.jpg" alt="Thousands of starlings forming a vast shifting shape in the sky, a murmuration with no leader"></div>
+      <figcaption>No leader. No center. No one giving orders. Ten thousand birds, each following the few around it, become one thing nothing can stop. This is what a movement of personal software looks like.<span class="cred">Starling murmuration, Rome · Moskenes · CC BY-SA 4.0</span></figcaption>
+    </figure>
+
+    <p style="margin-top:26px">One developer building one honest app looks like nothing at all. A thousand of them, forking and sharing and teaching, looks like weather. That is how an avalanche starts. Not with a command from the top, but with the first small thing that moves, and then the next, until the whole slope is going and no one owns it.</p>
+  </div>
+</section>
+
+<!-- ============================ FREEDOM ============================ -->
+<div class="rule blood"></div>
+<section id="freedom">
+  <div class="wrap">
+    <figure class="photo gray tall">
+      <div class="frame"><img loading="lazy" decoding="async" src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b9/Caspar_David_Friedrich_-_Wanderer_above_the_sea_of_fog.jpg/1280px-Caspar_David_Friedrich_-_Wanderer_above_the_sea_of_fog.jpg" alt="Caspar David Friedrich's painting of a lone figure on a rocky peak, looking out over a sea of fog and distant mountains"></div>
+      <figcaption>The oldest picture of freedom: one person at the edge of everything, looking out at a world they get to shape. That is what the device in your hand can be again. Go and shape yours.<span class="cred">Caspar David Friedrich, «Wanderer above the Sea of Fog», c. 1818 · public domain</span></figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ============================ SIGN OFF ============================ -->
+<section id="signoff">
+  <div class="wrap">
+    <div class="circleA">Ⓐ</div>
+    <p class="big">Fork It.<br><em>Ship It.</em><br>Keep Your Data.</p>
+    <p class="cta">No server · No account · No middleman · The only cost is tokens</p>
+    <p style="max-width:52ch;margin:30px auto 0;font-family:var(--serif);font-size:19px;opacity:.85">
+      We entered a new age of software still dressed in the old age's clothes: profit, platforms, moats. Take them off. The tools are free. The data is yours. Go build the thing that was only ever meant for you.
+    </p>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span>RECLAIM · A Pamphlet · № 001</span>
+    <span>Free to run · owns nothing of yours · art via Wikimedia Commons</span>
+  </div>
+</footer>
+
+</body>
+</html>
