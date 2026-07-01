@@ -204,22 +204,27 @@
 
   /* ---------- INLINE PLAIN-ENGLISH TERMS (tap/hover, no jumping) ---------- */
   .term{position:relative;color:var(--blood-deep);border-bottom:2px dotted currentColor;cursor:help;font-weight:700;outline:none}
-  .term .pop{position:absolute;left:0;bottom:calc(100% + 10px);width:min(300px,80vw);
+  .pop{position:absolute;left:0;bottom:calc(100% + 10px);width:min(300px,80vw);
     background:var(--ink);color:var(--paper);border:2px solid var(--blood);padding:12px 14px;
     font-family:var(--serif);font-weight:400;font-style:normal;font-size:14px;line-height:1.42;
     letter-spacing:normal;text-transform:none;z-index:40;opacity:0;visibility:hidden;transform:translateY(6px);
     transition:opacity .14s,transform .14s;box-shadow:6px 6px 0 rgba(0,0,0,.28);white-space:normal;text-align:left}
-  .term .pop b{color:var(--gold);font-weight:700}
-  .term:hover .pop,.term:focus .pop,.term:focus-within .pop{opacity:1;visibility:visible;transform:none}
-  .term .pop::after{content:"";position:absolute;top:100%;left:20px;border:7px solid transparent;border-top-color:var(--blood)}
+  .pop b{color:var(--gold);font-weight:700}
+  .term.open .pop{opacity:1;visibility:visible;transform:none}
+  @media(hover:hover){ .term:hover .pop{opacity:1;visibility:visible;transform:none} }
+  .pop{padding-right:34px}
+  .popx{position:absolute;top:5px;right:7px;width:28px;height:28px;border:0;background:transparent;
+    color:var(--paper);font:400 24px/1 var(--mono);cursor:pointer;opacity:.6;padding:0}
+  .popx:hover{opacity:1;color:var(--gold)}
+  .pop::after{content:"";position:absolute;top:100%;left:20px;border:7px solid transparent;border-top-color:var(--blood)}
   .taphint{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--smudge);margin:14px 0 0}
   .taphint b{color:var(--blood-deep)}
   /* Mobile: pin the definition to the bottom of the screen as a full-width sheet, so it can never run off-screen wherever the term sits. */
+  /* Mobile: the note is placed under the term at full page width by JS (below), and scrolls with the page. */
   @media(max-width:640px){
-    .term .pop{position:fixed;left:14px;right:14px;bottom:14px;top:auto;width:auto;max-width:none;
-      transform:translateY(12px);box-shadow:0 -8px 30px rgba(0,0,0,.5);font-size:15px;padding:14px 16px}
-    .term:hover .pop,.term:focus .pop,.term:focus-within .pop{transform:none}
-    .term .pop::after{display:none}
+    .pop{max-width:none;box-shadow:6px 6px 0 rgba(0,0,0,.35);font-size:15px;padding:16px 46px 16px 16px}
+    .pop::after{display:none}
+    .popx{top:9px;right:11px;width:34px;height:34px;font-size:29px}
   }
 
   /* ---------- START THE AVALANCHE (developer first steps) ---------- */
@@ -944,5 +949,48 @@
   </div>
 </footer>
 
+<script>
+/* Glossary terms: tap to open, tap again or × to close; tap-away and Escape also close.
+   On phones the note is placed in the page under the term at full width, so it scrolls with the page.
+   Hover still works on desktop. */
+(function(){
+  var open = null;
+  function isMobile(){ return window.matchMedia('(max-width:640px)').matches; }
+  function place(t){
+    var pop = t.__pop; if(!pop) return;
+    if(isMobile()){
+      var r = t.getBoundingClientRect();
+      var top = r.bottom + (window.pageYOffset || 0) + 8;
+      if(pop.parentNode !== document.body) document.body.appendChild(pop);
+      pop.style.cssText = 'position:absolute;left:14px;right:auto;top:' + top + 'px;bottom:auto;width:' + (document.documentElement.clientWidth - 28) + 'px;max-width:none;opacity:1;visibility:visible;transform:none;z-index:60;';
+    } else {
+      pop.style.cssText = '';
+      if(pop.parentNode !== t) t.appendChild(pop);
+    }
+  }
+  function close(){
+    if(!open) return;
+    var pop = open.__pop;
+    if(pop){ pop.style.cssText = ''; if(pop.parentNode !== open) open.appendChild(pop); }
+    open.classList.remove('open'); open = null;
+  }
+  document.querySelectorAll('.term').forEach(function(t){
+    var pop = t.querySelector('.pop'); t.__pop = pop;
+    if(pop){
+      pop.addEventListener('click', function(e){ e.stopPropagation(); }); // reading the note never closes it
+      var x = document.createElement('button');
+      x.type = 'button'; x.className = 'popx'; x.setAttribute('aria-label', 'Close'); x.textContent = '×';
+      x.addEventListener('click', function(e){ e.stopPropagation(); close(); });
+      pop.appendChild(x);
+    }
+    function toggle(e){ e.stopPropagation(); if(open === t){ close(); return; } close(); t.classList.add('open'); place(t); open = t; }
+    t.addEventListener('click', toggle);
+    t.addEventListener('keydown', function(e){ if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); toggle(e); } });
+  });
+  document.addEventListener('click', close);
+  document.addEventListener('keydown', function(e){ if(e.key === 'Escape') close(); });
+  window.addEventListener('resize', function(){ if(open) place(open); });
+})();
+</script>
 </body>
 </html>
